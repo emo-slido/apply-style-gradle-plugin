@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ingore IntelliJ files for now (this is always a source of problems)
+.idea/
