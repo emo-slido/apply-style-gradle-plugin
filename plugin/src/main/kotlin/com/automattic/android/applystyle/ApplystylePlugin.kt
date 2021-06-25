@@ -14,8 +14,12 @@ class ApplystylePlugin: Plugin<Project> {
         // Register a task
         project.tasks.register("greeting") { task ->
             task.doLast {
-                println("Hello from plugin 'com.automattic.android.applystyle.greeting'")
+                println("Hello from plugin '${ApplyStylePlugin.PLUGIN_NAME}'")
             }
         }
+    }
+
+    companion object {
+        const val PLUGIN_NAME = "a8c-apply-style-gradle-plugin"
     }
 }

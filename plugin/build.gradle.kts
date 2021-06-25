@@ -43,7 +43,7 @@ dependencies {
 gradlePlugin {
     // Define the plugin
     val greeting by plugins.creating {
-        id = "com.automattic.android.applystyle.greeting"
+        id = "a8c-apply-style-gradle-plugin"
         implementationClass = "com.automattic.android.applystyle.ApplystylePlugin"
     }
 }

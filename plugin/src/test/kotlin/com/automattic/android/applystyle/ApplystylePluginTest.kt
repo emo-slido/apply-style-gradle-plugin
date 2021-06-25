@@ -8,13 +8,13 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 /**
- * A simple unit test for the 'com.automattic.android.applystyle.greeting' plugin.
+ * A simple unit test for the plugin.
  */
 class ApplystylePluginTest {
     @Test fun `plugin registers task`() {
         // Create a test project and apply the plugin
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply("com.automattic.android.applystyle.greeting")
+        project.plugins.apply(ApplyStylePlugin.PLUGIN_NAME)
 
         // Verify the result
         assertNotNull(project.tasks.findByName("greeting"))

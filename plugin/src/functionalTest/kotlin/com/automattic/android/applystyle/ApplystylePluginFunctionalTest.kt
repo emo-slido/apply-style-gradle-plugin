@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 /**
- * A simple functional test for the 'com.automattic.android.applystyle.greeting' plugin.
+ * A simple functional test for the plugin.
  */
 class ApplystylePluginFunctionalTest {
     @Test fun `can run task`() {
@@ -19,7 +19,7 @@ class ApplystylePluginFunctionalTest {
         projectDir.resolve("settings.gradle").writeText("")
         projectDir.resolve("build.gradle").writeText("""
             plugins {
-                id('com.automattic.android.applystyle.greeting')
+                id('a8c-apply-style-gradle-plugin')
             }
         """)
 
@@ -32,6 +32,6 @@ class ApplystylePluginFunctionalTest {
         val result = runner.build();
 
         // Verify the result
-        assertTrue(result.output.contains("Hello from plugin 'com.automattic.android.applystyle.greeting'"))
+        assertTrue(result.output.contains("Hello from plugin 'a8c-apply-style-gradle-plugin'"))
     }
 }
