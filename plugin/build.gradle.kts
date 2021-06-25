@@ -18,6 +18,9 @@ plugins {
     id("com.gradle.plugin-publish") version "0.15.0"
 }
 
+group = "com.automattic.android.applystyle"
+version = "0.0.1"
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -42,7 +45,6 @@ gradlePlugin {
     val greeting by plugins.creating {
         id = "com.automattic.android.applystyle.greeting"
         implementationClass = "com.automattic.android.applystyle.ApplystylePlugin"
-        version = "0.0.1"
     }
 }
 
