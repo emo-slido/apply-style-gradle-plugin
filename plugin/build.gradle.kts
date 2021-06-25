@@ -42,6 +42,7 @@ gradlePlugin {
     val greeting by plugins.creating {
         id = "com.automattic.android.applystyle.greeting"
         implementationClass = "com.automattic.android.applystyle.ApplystylePlugin"
+        version = "0.0.1"
     }
 }
 
