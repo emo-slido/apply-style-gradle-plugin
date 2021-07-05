@@ -5,6 +5,7 @@
  * For more details take a look at the Writing Custom Plugins chapter in the Gradle
  * User Manual available at https://docs.gradle.org/7.1/userguide/custom_plugins.html
  */
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
@@ -20,6 +21,11 @@ plugins {
 
 group = "com.automattic.android.applystyle"
 version = "0.0.1"
+
+// Set the plugin's JVM target to 1.8
+// This is needed if we want to use 1.8 features like static methods in interfaces
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -38,6 +44,9 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
+    // While we need a valid version detekt we want the projects to be able to chose their own version
+    compileOnly("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1")
 }
 
 gradlePlugin {
