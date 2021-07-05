@@ -11,6 +11,7 @@ import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.plugins.quality.CodeQualityExtension
 import java.io.File
 import java.io.IOException
+import java.lang.RuntimeException
 import java.nio.file.Path
 import java.util.Properties
 
@@ -28,10 +29,36 @@ class ApplyStylePlugin: Plugin<Project> {
                 project.extractDetektConf(file, true)
                 println("Wrote detekt configuration file to $file")
 
-                val version = loadDetektVersion()
-                println("==> detekt version: $version")
+//                val version = loadDetektVersion()
+//                println("==> detekt version: $version")
             }
         }
+
+        project.afterEvaluate {
+            var detektVersion : String? = null
+            println("Calling with module")
+            project.dependencies.components.withModule("io.gitlab.arturbosch.detekt:detekt-bom") { it ->
+                println("---> $it")
+                detektVersion = it.id.version
+            }
+            println("detektVersion -> $detektVersion")
+        }
+//        project.findDetektVersion()
+
+        var foundVersion: String? = null
+        println("---> 1 <---")
+        project.dependencies.components.all { component ->
+            val module = component.id
+            println(" module => $module")
+            if (module.group == "io.gitlab.arturbosch.detekt" && module.name == "detekt-bom") {
+                foundVersion = module.version
+                println("-==> group : ${module.group}")
+                println("-==> name : ${module.name}")
+                println("-==> version : ${module.version}")
+                return@all
+            }
+        }
+        println("---> 2 <---")
 
         project.tasks.register("greeting") { task ->
             task.doLast {
@@ -43,6 +70,23 @@ class ApplyStylePlugin: Plugin<Project> {
             project.applyDetektPlugin()
         }
     }
+//
+//    private fun Project.findDetektVersion(): String {
+//        var foundVersion: String? = null
+//        project.dependencies.components.all { component ->
+//            val module = component.id
+//            println(" module => $module")
+//            if (module.group == "io.gitlab.arturbosch.detekt" && module.name == "detekt-bom") {
+//                foundVersion = module.version
+//                println("-==> group : ${module.group}")
+//                println("-==> name : ${module.name}")
+//                println("-==> version : ${module.version}")
+//                return@all
+//            }
+//        }
+//
+//        return foundVersion ?: throw RuntimeException("Can't find the version of detekt-gradle-plugin")
+//    }
 
     /**
      * Applies the detekt plugin to the project and configures the project properly.
