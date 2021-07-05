@@ -12,6 +12,7 @@ import org.gradle.api.plugins.quality.CodeQualityExtension
 import java.io.File
 import java.io.IOException
 import java.nio.file.Path
+import java.util.Properties
 
 /**
  * A custom plugin that standardizes the styles across various projects.
@@ -26,6 +27,9 @@ class ApplyStylePlugin: Plugin<Project> {
                 val file = detektExtension.config.singleFile ?: path(project.buildDir,"detekt.yml")
                 project.extractDetektConf(file, true)
                 println("Wrote detekt configuration file to $file")
+
+                val version = loadDetektVersion()
+                println("==> detekt version: $version")
             }
         }
 
@@ -80,6 +84,13 @@ class ApplyStylePlugin: Plugin<Project> {
                 }
             }
         }
+
+        // FIXME find the version of detekt used in the project and load the corresponding:
+        // dependencies {
+        //    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion"
+        // }
+//        val version = loadDetektVersion()
+//        println("==> detekt version: $version")
     }
 
     /**
@@ -164,4 +175,19 @@ class ApplyStylePlugin: Plugin<Project> {
     companion object {
         const val PLUGIN_NAME = "a8c-apply-style-gradle-plugin"
     }
+}
+
+// This is copied from DetektPlugin
+internal fun loadDetektVersion(): String = Properties().run {
+    val versions = DetektPlugin::class.java.getResource("versions.properties")
+    println("=> detekt versions file $versions")
+    if (versions == null) {
+        return "(not-found)"
+    }
+    val version = versions.openStream().use {
+        load(versions.openStream())
+        getProperty("detektVersion")
+    }
+    println("=> detekt version $version")
+    return version
 }
