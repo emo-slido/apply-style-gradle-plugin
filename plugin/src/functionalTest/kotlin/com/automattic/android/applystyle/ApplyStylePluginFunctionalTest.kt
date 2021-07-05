@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 /**
  * A simple functional test for the plugin.
  */
-class ApplystylePluginFunctionalTest {
+class ApplyStylePluginFunctionalTest {
     @Test fun `can run task`() {
         // Setup the test build
         val projectDir = File("build/functionalTest")
